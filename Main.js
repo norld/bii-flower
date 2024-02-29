@@ -29,26 +29,102 @@
 		var image_sound;
 		var file_sound = "icon.png"
 		var context;
+		var player;
+
+		var showMe = document.getElementById("showMe");
+		var video = document.getElementById("video");
+		var hideMe = document.getElementById("hideMe");
+		
+		function onYouTubeIframeAPIReady() {
+				player = new YT.Player('video', {
+						height: '415',
+						width: '700',
+						videoId: 'd9kImmAjGa0', // replace with your YouTube video id
+						playerVars: { 'autoplay': 0, 'controls': 0, 'showinfo': 0, 'rel': 0, 'autohide': 1, 'wmode': 'opaque' },
+						events: {
+								'onReady': onPlayerReady,
+								// You can add more event handlers if needed
+						}
+				});
+		}
+
+		function handleLoad(evt) {
+				console.log("music");
+				context = createjs.Sound.activePlugin.context;
+			    analyserNode = context.createAnalyser();
+			    analyserNode.fftSize = 32;
+			    analyserNode.smoothingTimeConstant = 0.85;
+			    analyserNode.connect(context.destination);
+			    var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
+			    dynamicsNode.disconnect();
+			    dynamicsNode.connect(analyserNode);
+			    freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
+	            if (createjs.Touch.enable(stage)) {
+	            }
+				else {
+	            }
+
+	            stage.update();
+							startPlayback();
+	        }
+					
+		function onPlayerReady(event) {
+				/* The API will call this function when the video player is ready. */
+				console.log("@jaahaaa")
+				showMe.addEventListener("click", function() {
+					console.log("click", video)
+					// handleLoad();
+					hideMe.style.display = "block";
+					player.playVideo();
+					setTimeout(function() { // Delay the execution of the following code by 1 second
+						handleLoad();
+					}, 1000); // 
+					
+					// if (video.paused) {
+					// 	video.play();
+					// } else {
+					// 	video.pause();
+					// }
+
+				});
+
+				setTimeout(function() { // Delay the execution of the following code by 1 second
+					showMe.innerHTML = "Klik sini ya bii";
+					showMe.style.cursor = "pointer";
+				}, 3000); //
+		}
 
 		function init(){
+			showMe.innerHTML = "Wait bentar bii loading...";
+			showMe.style.cursor = "none";
+			
 			canvas = document.getElementById("mycanvas");
 			stage = new createjs.Stage(document.getElementById("mycanvas"));
-			center_x = stage.canvas.width/2;
-			center_y = 0;
+			// center_x = stage.canvas.width/2;
+			// center_y = 0;
+			// font = 22 + "px "+"Cantarell";;
+			// text_field_1 = new createjs.Text("Please start music by click on stage",font, "#515151");
+			// text_field_1.textBaseline = "alphabetic";
+			// text_field_1.regX = text_field_1.getMeasuredWidth()/2;
+			// text_field_1.x = center_x;
+			// text_field_1.y = 50;
+			// stage.addChild(text_field_1);
 
-			font = 22 + "px "+"Cantarell";;
-			text_field_1 = new createjs.Text("Please start music by click on stage",font, "#515151");
-			text_field_1.textBaseline = "alphabetic";
-			text_field_1.regX = text_field_1.getMeasuredWidth()/2;
-			text_field_1.x = center_x;
-			text_field_1.y = 50;
-			stage.addChild(text_field_1);
+			var queue = new createjs.LoadQueue(true);
+			queue.installPlugin(createjs.Sound);
+			var manifest = [{id:"sound",src },];
+			queue.loadManifest(manifest,true);  
+			// queue.addEventListener('fileload',handleLoad);	
+			console.log("init");
 
-   			var queue = new createjs.LoadQueue(true);
-    		queue.installPlugin(createjs.Sound);
-   			var manifest = [{id:"sound",src:"./sound.mp3"},];
-    		queue.loadManifest(manifest,true);  
-    		queue.addEventListener('fileload',handleLoad);	
+			// onYouTubeIframeAPIReady();
+			
+			// The API will call this function when the video player is ready.
+			// function onPlayerReady(event) {
+			// 	console.log("onPlayerReady", event)
+				
+			// }
+			
 
 			var loader_sound = new createjs.LoadQueue(false);
 			loader_sound.addEventListener("fileload",draw_sound);
@@ -285,28 +361,9 @@
 			stage.update();
 			createjs.Ticker.setFPS(75);
 			createjs.Ticker.addEventListener("tick",act);
-
 			console.log("music 1");	
 
-			function handleLoad(evt) {
-				console.log("music");
-				context = createjs.Sound.activePlugin.context;
-			    analyserNode = context.createAnalyser();
-			    analyserNode.fftSize = 32;
-			    analyserNode.smoothingTimeConstant = 0.85;
-			    analyserNode.connect(context.destination);
-			    var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
-			    dynamicsNode.disconnect();
-			    dynamicsNode.connect(analyserNode);
-			    freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
-	            if (createjs.Touch.enable(stage)) {
-	            }
-				else {
-	            }
-
-	            stage.update();
-	            stage.addEventListener("stagemousedown", startPlayback);
-	        }
+			
 		}
 		var resumeAudioContext = function() {
 			try {
@@ -320,18 +377,16 @@
 			}
 		};
 		window.addEventListener("click", resumeAudioContext);
-        function startPlayback(evt) {
-            stage.removeEventListener("stagemousedown", startPlayback);
-            stage.removeChild(mybitmap_sound);
-            if(soundInstance) {return;}
-            stage.removeChild(messageField);
-		    soundInstance = createjs.Sound.play("sound",{loop:-1});
-		    soundInstance.volume = 0.5;
-		    stage.update();
-
-			onComplete();
-
-		}
+			function startPlayback(evt) {
+				stage.removeEventListener("stagemousedown", startPlayback);
+				stage.removeChild(mybitmap_sound);
+				if(soundInstance) {return;}
+				stage.removeChild(messageField);
+				soundInstance = createjs.Sound.play("sound",{loop:-1});
+				soundInstance.volume = 0.00001;
+				stage.update();
+				onComplete();
+			}
 		function onComplete(){
 			start_flag = true;
 		}

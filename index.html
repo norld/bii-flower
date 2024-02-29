@@ -1,50 +1,41 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Flower bii</title>
 	<meta name="description" content="">
-    	<meta name="viewport" content="maximum-scale=2.0,width=device-width,initial-scale=1.0,user-scalable=yes" />
-    	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="maximum-scale=2.0,width=device-width,initial-scale=1.0,user-scalable=yes" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="robots" content="all">
-	<meta name="author" content=""> 
+	<meta name="author" content="">
 	<meta name="keywords" content="">
 	<link href='https://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Sacramento' rel='stylesheet' type='text/css'>
 	<link rel="icon" type="" href="favicon.ico">
+	<link rel="stylesheet" href="style.css">
 	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-	<script src="Main.js"></script>
-    	<style>
-	HTML{
-	    height:100%;
-	    width:100%;
-    	background-color:#ffffff;
-	}
-	BODY{
-		overflow:hidden;
-		margin:0px 0px;
-	}
-	HEADER{
-		overflow:hidden;
-		margin:0px 0px;
-		background-color:#bbbbbb;
-		height:0%;
-		width:100%;
-	}
-	FOOTER{
-		overflow:hidden;
-		margin:0px 0px;
-		background-color:#aaaaaa;
-		height:0%;
-		width:100%;
-	}
-	DIV{
-		text-align:center;
-		background-color: #ffffff;
-	}
-	</style>
 </head>
+
 <body onload="init()">
-	<div><canvas id="mycanvas" width="600px" height="600px" style="width:300px;height:300px;"></canvas><div>
+
+	<div id="hideMe">
+		<div>
+			<canvas id="mycanvas" width="500px" height="500px"></canvas>
+		</div>
+		<div style="bottom: 0; position: absolute; left: 50%; translate: -50%;">
+			<!-- <iframe id="video" width="700" height="415"
+				src="https://www.youtube.com/embed/d9kImmAjGa0?autoplay=0&mute=1&controls=0&enablejsapi=1"></iframe> -->
+			<div id="video"></div>
+
+		</div>
+	</div>
+
+	<button id="showMe"></button>
+
+	<script src="Main.js"></script>
+	<script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
+
 </html>
