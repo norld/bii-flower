@@ -73,12 +73,11 @@
 				console.log("@jaahaaa")
 				showMe.addEventListener("click", function() {
 					console.log("click", video)
-					// handleLoad();
+
+					showMe.style.display = "none";
+					handleLoad();
 					hideMe.style.display = "block";
 					player.playVideo();
-					setTimeout(function() { // Delay the execution of the following code by 1 second
-						handleLoad();
-					}, 1000); // 
 					
 					// if (video.paused) {
 					// 	video.play();
@@ -88,10 +87,6 @@
 
 				});
 
-				setTimeout(function() { // Delay the execution of the following code by 1 second
-					showMe.innerHTML = "Klik sini ya bii";
-					showMe.style.cursor = "pointer";
-				}, 3000); //
 		}
 
 		function init(){
@@ -363,6 +358,10 @@
 			createjs.Ticker.addEventListener("tick",act);
 			console.log("music 1");	
 
+				setTimeout(function() { // Delay the execution of the following code by 1 second
+					showMe.innerHTML = "Klik sini ya bii";
+					showMe.style.cursor = "pointer";
+				}, 3000); //
 			
 		}
 		var resumeAudioContext = function() {
@@ -383,7 +382,7 @@
 				if(soundInstance) {return;}
 				stage.removeChild(messageField);
 				soundInstance = createjs.Sound.play("sound",{loop:-1});
-				soundInstance.volume = 0.00001;
+				soundInstance.volume = 0.001;
 				stage.update();
 				onComplete();
 			}
